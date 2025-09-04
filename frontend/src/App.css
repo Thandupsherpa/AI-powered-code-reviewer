@@ -1,0 +1,73 @@
+* {
+  margin:0%;
+  padding:0%;
+  box-sizing: border-box;
+
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+main {
+  height: 100%;
+  width: 100%;
+  padding: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  overflow: hidden; /* prevent full-page scroll */
+}
+
+main .left,
+main .right {
+  height: 100%;
+  flex-basis: 50%;
+  border-radius: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* scrollable individually */
+}
+
+/* Left side */
+main .left {
+  background-color: black;
+  position: relative;
+  padding-bottom: 4rem; /* leave space for review button */
+}
+
+.left .code,
+.code pre,
+.code pre code {
+  flex-grow: 1;
+  width: 100%;
+  margin: 0;
+  border-radius: 0.7rem;
+  background-color: black;
+  overflow-x: auto;
+}
+
+/* Review button stays pinned */
+main .left .review {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background-color: rgb(255, 238, 238);
+  color: black;
+  padding: 0.5rem 2rem;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 0.7rem;
+} 
+
+/* Right side */
+main .right {
+  background-color: rgb(75, 73, 73);
+  padding: 1rem 2rem;
+  overflow-y: auto; /* independent scrollbar */
+  white-space: pre-wrap; /* prevent long lines from overflowing */
+  word-break: break-word; /* break long words */
+}
