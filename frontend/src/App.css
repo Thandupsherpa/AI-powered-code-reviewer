@@ -36,6 +36,16 @@ main .left {
   background-color: black;
   position: relative;
   padding-bottom: 4rem; /* leave space for review button */
+  overflow-y: auto; /* allow scroll */
+  display: flex;
+  flex-direction: column;
+  
+}
+.left .code {
+  flex-grow: 1;           /* take up all available space */
+  overflow-y: auto;       /* make code area scrollable */
+  border-radius: 0.7rem;
+  background-color: black;
 }
 
 .left .code,
@@ -69,5 +79,119 @@ main .right {
   padding: 1rem 2rem;
   overflow-y: auto; /* independent scrollbar */
   white-space: pre-wrap; /* prevent long lines from overflowing */
-  word-break: break-word; /* break long words */
+  word-break: break-word; 
+  
 }
+/* Fullscreen loading screen */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: #0d0d0d; /* Dark background */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  font-family: "Fira Code", monospace;
+}
+
+
+.spinner {
+  border: 6px solid rgba(255, 255, 255, 0.2);
+  border-top: 6px solid #00ffcc; /* Neon highlight */
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-screen h2 {
+  animation: fade 2s infinite;
+}
+
+@keyframes fade {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+/* Review loading animation */
+.review-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #fff;
+  font-family: "Fira Code", monospace;
+}
+
+
+.dot-pulse {
+  position: relative;
+  left: -9999px;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: #00ffcc;
+  color: #00ffcc;
+  box-shadow: 9999px 0 0 -5px #00ffcc;
+  animation: dotPulse 1.5s infinite linear;
+  animation-delay: 0.25s;
+}
+.dot-pulse::before,
+.dot-pulse::after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: #00ffcc;
+  color: #00ffcc;
+}
+.dot-pulse::before {
+  box-shadow: 9984px 0 0 -5px #00ffcc;
+  animation: dotPulseBefore 1.5s infinite linear;
+}
+.dot-pulse::after {
+  box-shadow: 10014px 0 0 -5px #00ffcc;
+  animation: dotPulseAfter 1.5s infinite linear;
+  animation-delay: 0.5s;
+}
+
+@keyframes dotPulseBefore {
+  0% { box-shadow: 9984px 0 0 -5px #00ffcc; }
+  30% { box-shadow: 9984px 0 0 2px #00ffcc; }
+  60%, 100% { box-shadow: 9984px 0 0 -5px #00ffcc; }
+}
+@keyframes dotPulse {
+  0% { box-shadow: 9999px 0 0 -5px #00ffcc; }
+  30% { box-shadow: 9999px 0 0 2px #00ffcc; }
+  60%, 100% { box-shadow: 9999px 0 0 -5px #00ffcc; }
+}
+@keyframes dotPulseAfter {
+  0% { box-shadow: 10014px 0 0 -5px #00ffcc; }
+  30% { box-shadow: 10014px 0 0 2px #00ffcc; }
+  60%, 100% { box-shadow: 10014px 0 0 -5px #00ffcc; }
+}
+
+

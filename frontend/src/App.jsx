@@ -3,24 +3,48 @@ import "prismjs/themes/prism-tomorrow.css";
 import prism from "prismjs";
 import Editor from "react-simple-code-editor";
 import axios from "axios";
-import Markdown from "react-markdown"
-import rehypeHighlight from "rehype-highlight"
-import "highlight.js/styles/github-dark.css"
+import Markdown from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
+import "highlight.js/styles/github-dark.css";
 import "./App.css";
 
 function App() {
-  const [code, setCode] = useState(`function sum(a, b) {
-  return a + b;
-}`);
+  const [loading, setLoading] = useState(true);
+  const [code, setCode] = useState(``);
+  const [review, setReview] = useState(``);
+  const [reviewLoading, setReviewLoading] = useState(false);
+
   useEffect(() => {
     prism.highlightAll();
-  });
+  }, [code]);
 
-  const [review, setReview] = useState(``)
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 2500);
+    return () => clearTimeout(timer);
+  }, []);
 
   async function reviewCode() {
-    const response = await axios.post("http://localhost:3000/ai/get-review", {code});
-    setReview(response.data)
+    setReviewLoading(true); 
+    setReview(""); 
+    try {
+      const response = await axios.post("http://localhost:3000/ai/get-review", {
+        code,
+      });
+      setReview(response.data);
+    } catch (error) {
+      setReview("⚠️ Error fetching review. Please try again.");
+    } finally {
+      setReviewLoading(false); 
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="loading-screen">
+        <div className="spinner"></div>
+        <h2>Loading your Code Reviewer...</h2>
+      </div>
+    );
   }
 
   return (
@@ -38,8 +62,9 @@ function App() {
               style={{
                 fontFamily: '"Fira code","Fira mono","Monospace"',
                 fontSize: 16,
-                height: "100%",
+                minHeight: "100%",
                 width: "100%",
+                overflow: "auto",
               }}
             />
           </div>
@@ -47,10 +72,16 @@ function App() {
             Review
           </div>
         </div>
+
         <div className="right">
-          <Markdown
-          rehypePlugins={[rehypeHighlight]}
-          >{review}</Markdown>
+          {reviewLoading ? (
+            <div className="review-loading">
+              <div className="dot-pulse"></div>
+              <p>Getting your review...</p>
+            </div>
+          ) : (
+            <Markdown rehypePlugins={[rehypeHighlight]}>{review}</Markdown>
+          )}
         </div>
       </main>
     </>
