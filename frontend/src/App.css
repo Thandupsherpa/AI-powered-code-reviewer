@@ -1,8 +1,7 @@
 * {
-  margin:0%;
-  padding:0%;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-
 }
 
 html,
@@ -10,6 +9,9 @@ body,
 #root {
   height: 100%;
   width: 100%;
+  font-family: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background: #1e1e1e;
+  color: #f5f5f5;
 }
 
 main {
@@ -18,78 +20,104 @@ main {
   padding: 1.5rem;
   display: flex;
   gap: 1rem;
-  overflow: hidden; /* prevent full-page scroll */
+  overflow: hidden; /* no full-page scroll */
 }
 
+/* Shared styling for left and right */
 main .left,
 main .right {
   height: 100%;
-  flex-basis: 50%;
-  border-radius: 0.7rem;
+  flex: 1;
+  border-radius: 0.8rem;
   display: flex;
   flex-direction: column;
-  overflow-y: auto; /* scrollable individually */
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease-in-out;
 }
 
 /* Left side */
 main .left {
-  background-color: black;
+  background: #121212;
   position: relative;
-  padding-bottom: 4rem; /* leave space for review button */
-  overflow-y: auto; /* allow scroll */
-  display: flex;
-  flex-direction: column;
-  
+  padding: 1rem;
+  padding-bottom: 4rem;
 }
+
 .left .code {
-  flex-grow: 1;           /* take up all available space */
-  overflow-y: auto;       /* make code area scrollable */
-  border-radius: 0.7rem;
-  background-color: black;
-}
-
-.left .code,
-.code pre,
-.code pre code {
   flex-grow: 1;
-  width: 100%;
-  margin: 0;
-  border-radius: 0.7rem;
-  background-color: black;
-  overflow-x: auto;
+  overflow-y: auto;
+  border-radius: 0.6rem;
+  background: #0a0a0a;
+  padding: 1rem;
+  font-family: "Fira Code", monospace;
+  color: #00ffcc;
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
-/* Review button stays pinned */
+/* Code block inside */
+.left .code pre,
+.code pre code {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Review button */
 main .left .review {
   position: absolute;
   bottom: 1rem;
   right: 1rem;
-  background-color: rgb(255, 238, 238);
-  color: black;
-  padding: 0.5rem 2rem;
+  background: linear-gradient(135deg, #00ffcc, #0088ff);
+  color: #121212;
+  padding: 0.6rem 1.8rem;
   font-weight: 600;
   cursor: pointer;
-  user-select: none;
-  border-radius: 0.7rem;
-} 
+  border: none;
+  border-radius: 0.6rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+main .left .review:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 255, 204, 0.4);
+}
 
 /* Right side */
 main .right {
-  background-color: rgb(75, 73, 73);
-  padding: 1rem 2rem;
-  overflow-y: auto; /* independent scrollbar */
-  white-space: pre-wrap; /* prevent long lines from overflowing */
-  word-break: break-word; 
-  
+  background: #2b2b2b;
+  padding: 1.5rem;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  border-left: 2px solid rgba(255, 255, 255, 0.1);
 }
-/* Fullscreen loading screen */
+
+/* Scrollbar styling */
+main .left::-webkit-scrollbar,
+main .right::-webkit-scrollbar {
+  width: 8px;
+}
+main .left::-webkit-scrollbar-thumb,
+main .right::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+main .left::-webkit-scrollbar-thumb:hover,
+main .right::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+/* Loading screen */
 .loading-screen {
   position: fixed;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  background: #0d0d0d; /* Dark background */
+  background: #0d0d0d;
   color: white;
   display: flex;
   flex-direction: column;
@@ -99,10 +127,9 @@ main .right {
   font-family: "Fira Code", monospace;
 }
 
-
 .spinner {
-  border: 6px solid rgba(255, 255, 255, 0.2);
-  border-top: 6px solid #00ffcc; /* Neon highlight */
+  border: 6px solid rgba(255, 255, 255, 0.15);
+  border-top: 6px solid #00ffcc;
   border-radius: 50%;
   width: 70px;
   height: 70px;
@@ -110,39 +137,35 @@ main .right {
   margin-bottom: 1rem;
 }
 
-
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
+  to {
     transform: rotate(360deg);
   }
 }
 
 .loading-screen h2 {
   animation: fade 2s infinite;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: #00ffcc;
 }
 
 @keyframes fade {
-  0%, 100% {
-    opacity: 0.2;
-  }
-  50% {
-    opacity: 1;
-  }
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
 }
-/* Review loading animation */
+
+/* Review loading */
 .review-loading {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: #fff;
+  color: #00ffcc;
   font-family: "Fira Code", monospace;
+  font-size: 1.1rem;
 }
-
 
 .dot-pulse {
   position: relative;
@@ -150,8 +173,7 @@ main .right {
   width: 10px;
   height: 10px;
   border-radius: 5px;
-  background-color: #00ffcc;
-  color: #00ffcc;
+  background: #00ffcc;
   box-shadow: 9999px 0 0 -5px #00ffcc;
   animation: dotPulse 1.5s infinite linear;
   animation-delay: 0.25s;
@@ -159,14 +181,12 @@ main .right {
 .dot-pulse::before,
 .dot-pulse::after {
   content: '';
-  display: inline-block;
   position: absolute;
   top: 0;
   width: 10px;
   height: 10px;
   border-radius: 5px;
-  background-color: #00ffcc;
-  color: #00ffcc;
+  background: #00ffcc;
 }
 .dot-pulse::before {
   box-shadow: 9984px 0 0 -5px #00ffcc;
@@ -179,19 +199,11 @@ main .right {
 }
 
 @keyframes dotPulseBefore {
-  0% { box-shadow: 9984px 0 0 -5px #00ffcc; }
   30% { box-shadow: 9984px 0 0 2px #00ffcc; }
-  60%, 100% { box-shadow: 9984px 0 0 -5px #00ffcc; }
 }
 @keyframes dotPulse {
-  0% { box-shadow: 9999px 0 0 -5px #00ffcc; }
   30% { box-shadow: 9999px 0 0 2px #00ffcc; }
-  60%, 100% { box-shadow: 9999px 0 0 -5px #00ffcc; }
 }
 @keyframes dotPulseAfter {
-  0% { box-shadow: 10014px 0 0 -5px #00ffcc; }
   30% { box-shadow: 10014px 0 0 2px #00ffcc; }
-  60%, 100% { box-shadow: 10014px 0 0 -5px #00ffcc; }
 }
-
-
